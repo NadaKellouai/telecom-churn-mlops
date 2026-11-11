@@ -1,0 +1,17 @@
+# Environnement Python
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Données : elles seront suivies avec DVC
+/data/
+
+# Stockage local MLflow
+/mlflow.db
+/mlflow.db-*
+/mlruns/
+/mlartifacts/
+
+# Secrets et configuration locale
+.env
