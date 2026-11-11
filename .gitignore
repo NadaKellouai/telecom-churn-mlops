@@ -4,8 +4,6 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
-# Données : elles seront suivies avec DVC
-/data/
 
 # Stockage local MLflow
 /mlflow.db
