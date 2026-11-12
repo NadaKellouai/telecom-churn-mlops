@@ -1,0 +1,49 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 59fe54f030abaf4412e170422ac5dbd2.dir
+      size: 131728
+      nfiles: 1
+    - path: src/prepare.py
+      hash: md5
+      md5: ab7c9946811425dc0249b3d094c908ac
+      size: 3747
+    outs:
+    - path: data/prepared
+      hash: md5
+      md5: 9891b532ebe71154c5c9b006e382e25f.dir
+      size: 134973
+      nfiles: 4
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/prepared
+      hash: md5
+      md5: 9891b532ebe71154c5c9b006e382e25f.dir
+      size: 134973
+      nfiles: 4
+    - path: requirements.txt
+      hash: md5
+      md5: e962bcb87f27b748acf232fcd1081cf9
+      size: 3324
+    - path: src/train.py
+      hash: md5
+      md5: 3d2d6a252805bc56a2919ed202804c44
+      size: 6534
+    outs:
+    - path: artifacts/model.joblib
+      hash: md5
+      md5: 2fc353485dfbdc0d475fbfbb6af682d3
+      size: 2999762
+    - path: artifacts/model_metadata.json
+      hash: md5
+      md5: 2926a6990459932477447f3df11ff226
+      size: 614
+    - path: artifacts/validation_metrics.json
+      hash: md5
+      md5: 18728a4d7ffe7ad57dc874ed509f031c
+      size: 908

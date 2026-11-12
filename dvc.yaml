@@ -1,0 +1,21 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+      - src/prepare.py
+      - data/raw
+    outs:
+      - data/prepared
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/prepared
+      - requirements.txt
+    outs:
+      - artifacts/model.joblib
+      - artifacts/model_metadata.json
+    metrics:
+      - artifacts/validation_metrics.json:
+          cache: false

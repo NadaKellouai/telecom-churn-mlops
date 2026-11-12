@@ -1,0 +1,34 @@
+{
+  "baseline": {
+    "accuracy": 0.8417721518987342,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "average_precision": 0.15822784810126583,
+    "roc_auc": 0.5
+  },
+  "regression_logistique": {
+    "accuracy": 0.9018987341772152,
+    "precision": 0.9130434782608695,
+    "recall": 0.42,
+    "f1": 0.5753424657534246,
+    "average_precision": 0.7937436535462253,
+    "roc_auc": 0.9418327067669173
+  },
+  "random_forest": {
+    "accuracy": 0.9208860759493671,
+    "precision": 0.890625,
+    "recall": 0.57,
+    "f1": 0.6951219512195121,
+    "average_precision": 0.9136416335870953,
+    "roc_auc": 0.9849154135338345
+  },
+  "random_forest_threshold_0.3": {
+    "accuracy": 0.9556962025316456,
+    "precision": 0.8333333333333334,
+    "recall": 0.9,
+    "f1": 0.8653846153846154,
+    "average_precision": 0.9136416335870953,
+    "roc_auc": 0.9849154135338345
+  }
+}
