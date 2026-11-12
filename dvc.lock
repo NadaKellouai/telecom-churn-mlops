@@ -47,3 +47,14 @@ stages:
       hash: md5
       md5: 18728a4d7ffe7ad57dc874ed509f031c
       size: 908
+  check_quality:
+    cmd: python src/check_quality.py
+    deps:
+    - path: artifacts/validation_metrics.json
+      hash: md5
+      md5: 18728a4d7ffe7ad57dc874ed509f031c
+      size: 908
+    - path: src/check_quality.py
+      hash: md5
+      md5: 21f85d1ad4435bf6de33a66cb910c3a0
+      size: 1923

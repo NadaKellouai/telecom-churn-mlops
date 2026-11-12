@@ -19,3 +19,8 @@ stages:
     metrics:
       - artifacts/validation_metrics.json:
           cache: false
+  check_quality:
+    cmd: python src/check_quality.py
+    deps:
+      - src/check_quality.py
+      - artifacts/validation_metrics.json
