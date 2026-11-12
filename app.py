@@ -43,7 +43,7 @@ TRACKING_URI = os.getenv(
     "MLFLOW_TRACKING_URI", "http://127.0.0.1:5000"
 )
 MODEL_NAME = "telecom-churn-random-forest"
-MODEL_VERSION = "1"
+MODEL_VERSION = os.getenv("MODEL_VERSION", "1")
 
 FEATURES = [
     "call_failure",
