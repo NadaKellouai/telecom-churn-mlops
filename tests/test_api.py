@@ -5,8 +5,7 @@ import pandas as pd
 import pytest
 from fastapi.testclient import TestClient
 
-from app import app, FEATURES
-
+from app import app, FEATURES, MODEL_VERSION
 
 VALID_CUSTOMER = {
     "call_failure": 5,
@@ -36,7 +35,7 @@ def test_health(client):
 
     body = response.json()
     assert body["status"] == "ok"
-    assert body["model_version"] == "1"
+    assert body["model_version"] == MODEL_VERSION
     assert body["threshold"] == pytest.approx(0.3)
 
 
