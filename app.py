@@ -10,6 +10,33 @@ from fastapi import FastAPI
 from mlflow import MlflowClient
 from pydantic import BaseModel, ConfigDict, Field
 
+import json
+import logging
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
+from time import perf_counter
+from uuid import uuid4
+
+from fastapi import Request
+
+LOG_DIR = Path(__file__).resolve().parent / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+monitor_logger = logging.getLogger("telecom_churn.monitor")
+monitor_logger.setLevel(logging.INFO)
+monitor_logger.propagate = False
+
+if not monitor_logger.handlers:
+    handler = RotatingFileHandler(
+        LOG_DIR / "requests.jsonl",
+        maxBytes=5_000_000,
+        backupCount=2,
+        encoding="utf-8",
+    )
+
+    handler.setFormatter(logging.Formatter("%(message)s"))
+    monitor_logger.addHandler(handler)
+
 
 # Configuration : version précise pour un déploiement reproductible
 TRACKING_URI = os.getenv(
@@ -102,6 +129,35 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
+@app.middleware("http")
+async def monitor_requests(request: Request, call_next):
+    request_id = str(uuid4())
+    started_at = perf_counter()
+    status_code = 500
+
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+        response.headers["X-Request-ID"] = request_id
+        return response
+
+    finally:
+        duration_ms = (perf_counter() - started_at) * 1000
+
+        event = {
+            "timestamp": pd.Timestamp.now(tz="UTC").isoformat(),
+            "request_id": request_id,
+            "method": request.method,
+            "path": request.url.path,
+            "status_code": status_code,
+            "duration_ms": round(duration_ms, 3),
+            "validation_error": status_code == 422,
+            "server_error": status_code >= 500,
+            "model_version": MODEL_VERSION,
+        }
+
+        monitor_logger.info(json.dumps(event))
 
 
 @app.get("/health")
